@@ -27,7 +27,7 @@ SITE_ID = 1
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # 'email' or 'username' or 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'  # 'email' or 'username' or 'username_email'
 
 # Common sense settings based on authentication method
 if ACCOUNT_AUTHENTICATION_METHOD == 'username':

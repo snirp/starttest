@@ -37,9 +37,9 @@ You can checkout one of the following branches, each representing a different au
 + `username` **Authenticate with username**: password has to be entered twice; email address is not required.
 + `email` **Authenticate with email address**: users have no username, the email will serve as the username field
 + `username_email` **Authenticate with email or username**: both username and email are required
-+ `master` **Switch between methods**: choose on the above methods by setting the corresponding value as `ACCOUNT_AUTHENTICATION_METHOD` in `settings/base.py`.
++ `master` **Switch between methods**: choose one the above methods by setting the corresponding value as `ACCOUNT_AUTHENTICATION_METHOD` in `settings/base.py` (default is `username`).
 
-In the `master` branch `users/models.py` and `users/admin.py` contain a few `if ... else` statements that make sure the model and the admin pages match the authentication choice. This allows you to quickly switch between methods.
+In the `master` branch `users/models.py` and `users/admin.py` contain a few `if ... else` statements that make sure the model and the admin pages match the authentication choice. This allows you to quickly switch between methods, which can be useful if you are trying decide on the proper authentication method. Otherwise it might be easier to start with one of the other branches.
 
 ## Create database
 
@@ -61,8 +61,21 @@ The triple dotted `...env` file holds a template for your environmental settings
 1. Edit passwords, secret keys and environment-specific settings to suit your environment. The database settings should match the values of the Postgres database you created.
 
 
+## Edit settings, apply migrations and get started
 
+Configure `BANDIT_EMAIL` in `project/settings/development.py` to match your email address to use during development.
 
-## Edit settings
+```
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
 
-Configure the `BANDIT_EMAIL` setting in 
+You can edit the Site settings in the admin to match your project.
+
+# What's next?
+With Allauth, adding OAuth authentication by third party providers is a breeze. Check out their docs to get started.
+
+Other recommended libraries:
++ Django REST Framework
++ ...
