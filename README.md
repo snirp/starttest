@@ -1,33 +1,68 @@
-# Django starter templates
-This project contains a collection of mildly opinionated Django 2.1 starter templates. The main goal is to get started quickly in common cases and avoid repetition or bad practices during setup. With this I am able to address some personal gripes. Not everyone may share these and it's open to discussion what exeactly represents "best practice". For every template, 
+# Django starter templates with a choice of authentication
+This is a collection of mildly opinionated Django starter templates. The main goal is to get started quickly in common cases and avoid repetition or bad practices during setup. With this I am able to address some personal gripes. Not everyone may share these and it's open to discussion what exeactly represents "best practice". You can check out different branches 
 
+## Installed libraries:
 
++ django-debug-toolbar - [docs](https://django-debug-toolbar.readthedocs.io)
++ django-extensions - [docs](https://django-extensions.readthedocs.io)
++ psycopg2 - [docs](http://initd.org/psycopg/docs/)
++ django-allauth - [docs](https://django-allauth.readthedocs.io)
++ django-email-bandit - [docs](https://django-email-bandit.readthedocs.io/en/latest/)
+
+## Configuration choices
+
++ Stick to the default Django folder layout, with the name of the project and the project-folder simply: `project`
++ Manage confidentional and environment-spefic settings in a `.env` file (environmental variables)
++ A `base` settings file is extended with phase-specific settings files (`development`, `production`, etc)
++ The debug-toolbar will only be activated when `DEBUG` is set to `True`
++ Postgres is the default database engine
+
+## Features
+
++ A basic custom user model `users.models.User` that inherits from `AbstractBaseUser`
++ Easy choice between `username`, `email` or `username_email` authentication methods
++ Fully compatible with `allauth` views and templates for account management
++ Emails sent in the development phase are intercepted and sent to an address you choose
+
+# Get started
+
+## Checkout authentication method
 ```
 git init
 git remote add django-starters git://github.com/snirp/django2.1-starters.git
 git checkout -b master django-starters/<branchname>
 pipenv install
 ```
+You can checkout one of the following branches, each representing a different authentication method:
++ `username` **Authenticate with username**: password has to be entered twice; email address is not required.
++ `email` **Authenticate with email address**: users have no username, the email will serve as the username field
++ `username_email` **Authenticate with email or username**: both username and email are required
++ `master` **Switch between methods**: choose on the above methods by setting the corresponding value as `ACCOUNT_AUTHENTICATION_METHOD` in `settings/base.py`.
 
-For all templates, the following choices have been made:
-+ A pipenv virtual environment
-+ The name of the project and the project-folder are simply `project` (and I rarely see reason to change that in a project, but you easily could).
-+ Furthermore any changes as described under the `vanilla` branch. All other branches can be seen as inherting from vanilla (except `master`).
-+ Gitignore file as included
+In the `master` branch `users/models.py` and `users/admin.py` contain a few `if ... else` statements that make sure the model and the admin pages match the authentication choice. This allows you to quickly switch between methods.
+
+## Create database
+
+Replace the values of `my_database`, `my_user`, and `my_password` with your own values. 
+```
+psql
+postgres=# CREATE DATABASE my_database;
+postgres=# CREATE USER my_user WITH ENCRYPTED PASSWORD 'my_password';
+postgres=# GRANT ALL PRIVILEGES ON DATABASE my_database TO my_user;
+postgres=# \q
+```
+
+## Set environment variables
+
+The triple dotted `...env` file holds a template for your environmental settings. Proceed as follows:
+
+1. Double check that `.gitignore` has a line with `.env`, so git will not track the (confidential) environment settings.
+1. Rename from ...env to .env (`mv ...env .env`)
+1. Edit passwords, secret keys and environment-specific settings to suit your environment. The database settings should match the values of the Postgres database you created.
 
 
-# Branches
 
-## [master]
 
-The default installation of Django
+## Edit settings
 
-## [vanilla](https://github.com/snirp/django2.1-starter/tree/vanilla)
-
-Basic setup with a few best practices:
-* Use of environment variables to manage confidential settings
-* Environment-specific settings files
-* Custom user model, subclassed from `AbstractBaseUser` and contained in an app called `auth`
-
-## [email-auth](https://github.com/snirp/django2.1-starter/tree/email-auth)
-
+Configure the `BANDIT_EMAIL` setting in 

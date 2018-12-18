@@ -12,6 +12,7 @@ django-debug-toolbar = "*"
 psycopg2 = "*"
 django-allauth = "*"
 django-email-bandit = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.7"

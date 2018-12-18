@@ -36,4 +36,4 @@ INSTALLED_APPS += ('bandit',)
 
 EMAIL_BACKEND = 'bandit.backends.smtp.HijackSMTPBackend'
 
-BANDIT_EMAIL = 'prinsroy@gmail.com'
+BANDIT_EMAIL = 'email@example.com'
