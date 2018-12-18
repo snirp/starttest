@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'users',
 ]
 
@@ -23,14 +24,35 @@ SITE_ID = 1
 
 # AllAuth registration settings
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # 'email' or 'username' or 'username_email'
+
+# Common sense settings based on authentication method
+if ACCOUNT_AUTHENTICATION_METHOD == 'username':
+    ACCOUNT_USERNAME_REQUIRED = True
+    ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+elif ACCOUNT_AUTHENTICATION_METHOD == 'email':
+    ACCOUNT_USERNAME_REQUIRED = False
+    ACCOUNT_UNIQUE_EMAIL = True
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+    ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+elif ACCOUNT_AUTHENTICATION_METHOD == 'username_email':
+    ACCOUNT_UNIQUE_EMAIL = True
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USERNAME_REQUIRED = True
+    ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+
+
+# Email server
+EMAIL_USE_TLS =         os.environ['EMAIL_USE_TLS']
+EMAIL_BACKEND =         os.environ['EMAIL_BACKEND']
+EMAIL_HOST =            os.environ['EMAIL_HOST']
+EMAIL_HOST_PASSWORD =   os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER =       os.environ['EMAIL_HOST_USER']
+EMAIL_PORT =            os.environ['EMAIL_PORT']
+DEFAULT_FROM_EMAIL =    os.environ['DEFAULT_FROM_EMAIL']
 
 
 AUTHENTICATION_BACKENDS = (

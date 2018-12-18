@@ -10,9 +10,7 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
-    INSTALLED_APPS += (
-        'debug_toolbar',
-    )
+    INSTALLED_APPS += ('debug_toolbar',)
 
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
@@ -33,3 +31,9 @@ if DEBUG:
         'INTERCEPT_REDIRECTS': False,
     }
 
+# Email bandit
+INSTALLED_APPS += ('bandit',)
+
+EMAIL_BACKEND = 'bandit.backends.smtp.HijackSMTPBackend'
+
+BANDIT_EMAIL = 'prinsroy@gmail.com'
